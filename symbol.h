@@ -30,7 +30,6 @@ protected:
 protected:
     static vector<symbol*> svec;
     static string character;
-    //static fstream //cFile;
     static FILE *fp;
     static char ch;
     static streampos pos;
@@ -69,21 +68,15 @@ private:
     void loadSymbol();
 
     void loadC(char* cname){
-        //cFile.open(cname);
         fp=fopen(cname,"rt");
     }
 
     void traverse(){
-        //cFile>>noskipws;
-        //cFile>>ch;
         ch=fgetc(fp);
-        //while (!//cFile.eof())
         while (ch != EOF)
         {
-            //while ((ch==' '||ch=='\n'||ch=='\t')&&!//cFile.eof())
             while ((ch==' '||ch=='\n'||ch=='\t')&&ch != EOF)
             {
-                //cFile>>ch;
                 ch=fgetc(fp);
             }
             auto it = find_if(svec.begin(),svec.end(),[](symbol* sy){
@@ -101,11 +94,8 @@ private:
             {
                 (*it)->processor();
             }
-            //cout<<":s"<<//cFile.tellg()<<endl;
-            //cFile>>ch;
     
             ch=fgetc(fp);
-            //cout<<":s2"<<//cFile.tellg()<<endl;
         }
         
     }
@@ -113,7 +103,6 @@ private:
 
 vector<symbol*> symbol::svec;
 string symbol::character="";
-//fstream symbol:://cFile;
 FILE *symbol::fp;
 char symbol::ch=' ';
 streampos symbol::pos=0;
@@ -128,10 +117,8 @@ public:
         while (eqd(ch))
         { 
             tnum = tnum*10 + (ch-48);
-            //cFile>>ch;
             ch=fgetc(fp);
         }
-        //back;
         fseek(fp,-1,SEEK_CUR);
         result();
     }
@@ -150,17 +137,11 @@ public:
 
     virtual void processor(){
         l="";
-        //pos = //cFile.tellg();
         while(eql(ch)||eqd(ch))
         {
-            //pos = //cFile.tellg();
-            //cout<<":"<<pos<<endl;
             l = l + ch;
-            //cFile>>ch;
             ch=fgetc(fp);
         } 
-        //cout<<":"<<pos<<endl;
-        //cFile.seekg(pos,ios::beg);
         fseek(fp,-1,SEEK_CUR);
         auto it = find_if(svec.begin(),svec.end(),[this](symbol* s){return (*s)==l;});
         if (it != svec.end())
@@ -182,14 +163,12 @@ public:
     operators(int n,string s):symbol(n,s){}
 
     virtual void processor(){
-        //cFile>>ch;
         ch=fgetc(fp);
         if (ch == *op2)
         {
             auto it = find_if(svec.begin(),svec.end(),[this](symbol* s){return (*s)==(string(1,*op1)+op2);});
             (*it)-> result();
         }else{
-            //back;
             fseek(fp,-1,SEEK_CUR);
             result();
         }
