@@ -46,6 +46,7 @@ public:
         loadC(cname);
         loadSymbol();
         traverse();
+        close();
     }
     
     void getC(char* cname){}
@@ -63,6 +64,10 @@ public:
         fout<<snum<<endl;
     }
 
+    void close(){
+        fout.close();
+        fclose(fp);
+    }
 
 private:
     
@@ -231,4 +236,5 @@ void symbol::loadSymbol()
     cout<<"加载符号\n";
     for_each(svec.begin(),svec.end(),[](symbol* sy){cout<<sy->getInt()<<' '<<sy->getSstr();return 1;});
     cout<<endl;
+    openFile.close();
 }
