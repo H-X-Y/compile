@@ -30,6 +30,7 @@ protected:
 protected:
     static vector<symbol*> svec;
     static string character;
+    static ofstream fout;
     static FILE *fp;
     static char ch;
     static streampos pos;
@@ -59,6 +60,7 @@ public:
 
     virtual void result(){
         cout<<snum<<endl;
+        fout<<snum<<endl;
     }
 
 
@@ -72,6 +74,7 @@ private:
     }
 
     void traverse(){
+        fout.open("out.txt");
         ch=fgetc(fp);
         while (ch != EOF)
         {
@@ -106,6 +109,7 @@ string symbol::character="";
 FILE *symbol::fp;
 char symbol::ch=' ';
 streampos symbol::pos=0;
+ofstream symbol::fout;
 
 class number:public symbol{
 private:
@@ -125,6 +129,7 @@ public:
 
     virtual void result(){
         cout<<snum<<' '<<tnum<<endl;
+        fout<<snum<<' '<<tnum<<endl;
         tnum=0;
     }
 };
@@ -154,6 +159,7 @@ public:
 
     virtual void result(){
         cout<<snum<<' '<<l<<endl;
+        fout<<snum<<' '<<l<<endl;
     }
 };
 
