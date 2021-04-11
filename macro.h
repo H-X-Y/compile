@@ -9,3 +9,6 @@
     operators<eop1,eop2>* veco = new operators<eop1, eop2>(snum, op1);\
     svec.emplace_back(veco);\
 }else
+
+
+#define symToEng(sym,eng) const char eng[] = sym;

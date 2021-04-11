@@ -4,10 +4,10 @@
 #include<fstream>
 #include<algorithm>
 #include<stdio.h>
+#include<map>
 #include"macro.h"
 using namespace std;
 
-#define symToEng(sym,eng) const char eng[] = sym;
 
 symToEng("+",ad)
 symToEng("=",eq)
@@ -22,6 +22,15 @@ symToEng("%",mo)
 symToEng("&",an)
 symToEng("|",oR)
 
+enum Type{integer,floting,character};
+enum Cat{sig,arr};
+
+struct symTabElem{
+    Type type;
+    Cat cat;
+    int addr;
+};
+
 class symbol{
 protected:
     int snum;
@@ -34,6 +43,7 @@ protected:
     static FILE *fp;
     static char ch;
     static streampos pos;
+    static map<string,symTabElem> symTab;
 public:
     symbol(const int n,const string s):snum(n),sstr(s){}
     symbol(){}
@@ -47,6 +57,7 @@ public:
         loadSymbol();
         traverse();
         close();
+        freeVector();
     }
     
     void getC(char* cname){}
@@ -62,6 +73,15 @@ public:
     virtual void result(){
         cout<<snum<<endl;
         fout<<snum<<endl;
+    }
+
+    void freeVector(){
+        for (auto i : svec){
+            delete(i);
+        }
+        for(auto i : symTab){
+            cout<<i.first<<" "<<i.second.type;
+        }
     }
 
     void close(){
@@ -115,6 +135,7 @@ FILE *symbol::fp;
 char symbol::ch=' ';
 streampos symbol::pos=0;
 ofstream symbol::fout;
+map<string,symTabElem> symbol::symTab;
 
 class number:public symbol{
 private:
@@ -165,6 +186,7 @@ public:
     virtual void result(){
         cout<<snum<<' '<<l<<endl;
         fout<<snum<<' '<<l<<endl;
+        symTab.emplace(l,symTabElem());
     }
 };
 
