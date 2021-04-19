@@ -1,3 +1,6 @@
+#include<map>
+#include<vector>
+
 #define eqd(n) (n>='0'&&n<='9')
 
 #define eql(c) ((c>='a'&&c<='z')||(c>='A'&&c<='Z'))
@@ -12,3 +15,5 @@
 
 
 #define symToEng(sym,eng) const char eng[] = sym;
+
+

@@ -1,0 +1,37 @@
+program ::= type id ‘(‘ param_decl_list ‘)’ compound_stmt
+type ::= int | char | void
+param_decl_list ::= param_decl (‘,’ param_decl )*| empty
+param_decl ::= type id 
+compound_stmt ::= ‘{‘ (var_decl* stmt*)? ‘}’
+var_decl ::= type var_decl_list ‘;’
+var_decl_list ::= variable_id ( ‘,’ variable_id)*
+variable_id ::= id ( ‘=’ expr )?                   210          211         212
+stmt ::= expr ';'|compound_stmt | cond_stmt | while_stmt | break ‘;’ | continue ‘;’ | return expr ‘;’ 
+cond_stmt ::= if ‘(‘ expr ‘)’ stmt (else stmt)?
+while_stmt ::= while ‘(‘ expr ‘)’ stmt
+3+4-5*6/7<8>9=10!11(12)15{16}19,24;101<=102>=104==103!=201void202int204char205if206else207while
+expr ::= id = expr | sim_expr                (,id,NUM            ),;    
+sim_expr ::= add_expr [ cmp add_expr ]       (,id,NUM            ),;    
+cmp ::= < | > | == | >= | <= | !=            <,>,==,>=,<=,!=     (,id,NUM
+add_expr ::= term { addop term }             (,id,NUM            ),;
+addop ::= + | -                              +,-                 (,id,NUM
+term ::= factor { mulop factor }             (,id,NUM            ),;
+mulop ::= * | /                              *,/                 (,id,NUM
+factor ::= ( expr ) | id | call | NUM        (,id,NUM            ),;
+call ::= id ( args )                         id                  ),;
+args ::= arg_list | empty                    (,id,NUM,empty      ),;
+arg_list ::= expr { ,expr }                  (,id,NUM            ),;
+
+
+            (   )   id  NUM    <    >   ==     >=      <=      !=      +    -   *   /   ;
+expr        13      13  13
+sim_expr    14      14  14
+cmp                            15   15   15    15       15      15
+add_expr    16      16  16
+addop                                                                  17   17
+term        18      18  18
+mulop                                                                          19   19
+factor      20      20  20
+call                21
+args        22  e   22  22                                                              e
+arg_list    23      23  23

@@ -6,6 +6,7 @@
 #include<stdio.h>
 #include<map>
 #include"macro.h"
+#include"syntax.h"
 using namespace std;
 
 
@@ -31,10 +32,19 @@ struct symTabElem{
     int addr;
 };
 
+class lexResultElem{
+public:
+    int num;
+    string sym;
+    
+    lexResultElem(int n,string s=" "):num(n),sym(s){}
+};
+
 class symbol{
 protected:
     int snum;
     string sstr;
+    friend class syntax;
 
 protected:
     static vector<symbol*> svec;
@@ -44,6 +54,7 @@ protected:
     static char ch;
     static streampos pos;
     static map<string,symTabElem> symTab;
+    static vector<lexResultElem> lvec;
 public:
     symbol(const int n,const string s):snum(n),sstr(s){}
     symbol(){}
@@ -73,6 +84,7 @@ public:
     virtual void result(){
         cout<<snum<<endl;
         fout<<snum<<endl;
+        lvec.emplace_back(lexResultElem(snum));
     }
 
     void freeVector(){
@@ -82,6 +94,11 @@ public:
         for(auto i : symTab){
             cout<<i.first<<" "<<i.second.type;
         }
+        for (auto i : lvec)
+        {
+            cout<<i.num<<" "<<i.sym<<endl;
+        }
+        
     }
 
     void close(){
@@ -136,6 +153,7 @@ char symbol::ch=' ';
 streampos symbol::pos=0;
 ofstream symbol::fout;
 map<string,symTabElem> symbol::symTab;
+vector<lexResultElem> symbol::lvec;
 
 class number:public symbol{
 private:
@@ -156,6 +174,7 @@ public:
     virtual void result(){
         cout<<snum<<' '<<tnum<<endl;
         fout<<snum<<' '<<tnum<<endl;
+        lvec.emplace_back(lexResultElem(1));
         tnum=0;
     }
 };
@@ -187,6 +206,7 @@ public:
         cout<<snum<<' '<<l<<endl;
         fout<<snum<<' '<<l<<endl;
         symTab.emplace(l,symTabElem());
+        lvec.emplace_back(2,l);
     }
 };
 
